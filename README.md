@@ -1,4 +1,6 @@
-# NEONDISCO-TEAS:Discovery pipeline for transposable element and alternative splicing derived neoantigens
+# NEONDISCO-TEAS
+
+## Discovery pipeline for transposable element and alternative splicing derived neoantigens
 
 This repo will document my work on transposable element and alternative splicing from derived neoantigens pipeline on a modular system called NEONDISCO.
 
@@ -12,7 +14,7 @@ This step is to build a Docker image of ChimeraTE. ChimeraTE is a tool to detect
 
 ChimeraTE requires the installation of all this dependancy in your path.
 
-* Python dependency:
+### Python dependency:
 - Python 3.6+
 - Termcolor 1.1.0
 - Pybedtools 0.9.0
@@ -21,7 +23,7 @@ ChimeraTE requires the installation of all this dependancy in your path.
 - h5py 3.1.0
 - numpy 1.19.5
 
-* Softwares:
+### Softwares:
 - Bedtools 2.30.0
 - BLAST 2.13+
 - Bowtie 2.5.1
