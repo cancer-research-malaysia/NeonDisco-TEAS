@@ -6,7 +6,7 @@ This repo will document my work on transposable element and alternative splicing
 
 ## 1. Building image for ChimeraTE 
 
-This step is to build a Docker image of ChimeraTE. ChimeraTE is a tool to detect transcripts with paired end RNA-seq developed by Oliveira, D. S., et al.(2023). It has two running Modes:
+This step is to build a Docker image of ChimeraTE. ChimeraTE is a tool to detect transcripts with paired end RNA-seq developed by Oliveira et al. (2023). It has two running Modes:
 
 * Mode 1 chimeric transcripts detection based upon exons and TE copies positions in the genome sequence;
 

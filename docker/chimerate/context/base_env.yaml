@@ -1,0 +1,25 @@
+name: base
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.13
+  - termcolor=1.1.0
+  - pybedtools=0.9.0
+  - pandas=1.1.5
+  - python-dateutil=2.8.2
+  - h5py=3.1.0
+  - numpy=1.19.5
+  - awscli
+  - bedtools
+  - blast
+  - bowtie2
+  - cufflinks
+  - express
+  - repeatmasker
+  - trinity
+  - seqtk
+  - samtools
+  - star
+  - pip
+    
