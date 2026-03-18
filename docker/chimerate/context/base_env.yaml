@@ -22,5 +22,5 @@ dependencies:
   - samtools
   - star
   - pip:
-    - pyranges=0.0.77
+    - pyranges==0.0.77
     
