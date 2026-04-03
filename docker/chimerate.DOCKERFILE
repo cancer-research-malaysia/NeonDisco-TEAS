@@ -55,7 +55,14 @@ ENV PATH="/opt/conda/bin:/opt/conda/condabin:$PATH"
 # install ChimeraTE
 RUN git clone https://github.com/OliveiraDS-hub/ChimeraTE.git
 
+# move ChimeraTE repo to home
+RUN mv /tmp/ChimeraTE /home/ec2-user
+
+# Ensure all Python files are executable (optional)
+RUN chmod +x /home/ec2-user/ChimeraTE/chimTE_mode*.py
+RUN chmod +x /home/ec2-user/ChimeraTE/scripts/*.py
+
 # set workdir
-WORKDIR /home/ec2-user
+WORKDIR /home/ec2-user/ChimeraTE
 
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]

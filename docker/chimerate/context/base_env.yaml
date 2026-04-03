@@ -4,8 +4,8 @@ channels:
   - bioconda
 dependencies:
   - python=3.6
-  - termcolor=1.1.0
   - pybedtools=0.9.0
+  - termcolor=1.1.0
   - pandas=1.1.5
   - python-dateutil=2.8.2
   - h5py=3.1.0
@@ -21,5 +21,6 @@ dependencies:
   - seqtk
   - samtools
   - star
-  - pip
+  - pip:
+    - pyranges==0.0.77
     
