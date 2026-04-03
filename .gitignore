@@ -47,3 +47,4 @@ data/ref/*
 # Large files
 *.zip
 *.tar.gz
+*.sif
