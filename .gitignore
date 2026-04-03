@@ -48,3 +48,6 @@ data/ref/*
 *.zip
 *.tar.gz
 *.sif
+# pixi environments
+.pixi/*
+!.pixi/config.toml
