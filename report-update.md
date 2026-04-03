@@ -12,7 +12,7 @@ How to run the example data:
 python3 chimTE_mode1.py --genome example_data/mode1/dmel_genome_sample.fa --input example_data/mode1/input_mode1.tsv --project test_out --te example_data/mode1/dmel_TEs_sample.gtf --gene example_data/mode1/dmel_genes_sample.gtf --strand rf-stranded
 ```
 
-2. Using our own data from AWS (VERY EASY TO UNDERSTAND PATHWAYS):
+2. A. Using our own data from AWS (VERY EASY TO UNDERSTAND PATHWAYS):
 ```
 apptainer shell --writable-tmpfs \
   --pwd /home/ec2-user/ChimeraTE \
@@ -25,10 +25,10 @@ apptainer shell --writable-tmpfs \
 How to run the AWS data:
 ```
 python3 chimTE_mode2.py \
-  --input projects/metadata/input_379T.tsv \
+  --input projects/metadata/A_input_379T.tsv \
   --project test_out \
   --transcripts projects/input_data/human_transcripts_chimeraTE.fa \
-  --te projects/input_data/000 \
+  --te projects/input_data/hg38_TE_sequences.fa \
   --ref_TEs human \
   --strand rf-stranded \
   --threads 8 \ 
@@ -46,10 +46,10 @@ apptainer shell --writable-tmpfs \
 
 ```
 python3 chimTE_mode2.py \
-  --input projects/data/input/input_379T.tsv \
+  --input projects/data/metadata/B_input_379T.tsv \
   --project data/output \
   --transcripts projects/data/input/human_transcripts_chimeraTE.fa \
-  --te projects/data/input/000 \
+  --te projects/data/input/hg38_TE_sequences.fa \
   --ref_TEs human \
   --strand rf-stranded \
   --threads 8 \ 
