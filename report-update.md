@@ -41,6 +41,8 @@ python3 chimTE_mode2.py \
 apptainer shell --writable-tmpfs \
   --pwd /home/ec2-user/ChimeraTE \
   --bind ~/repos/neondisco-teas/data:/home/ec2-user/ChimeraTE/projects/data \
+  --bind ~/repos/neondisco-teas/data/output/index:/home/ec2-user/ChimeraTE/index \
+  --bind ~/repos/neondisco-teas/data/output/tmp:/tmp \
   chimerate_1.3.sif
   ```
 
