@@ -31,7 +31,7 @@ python3 chimTE_mode2.py \
   --te projects/input_data/hg38_TE_sequences.fa \
   --ref_TEs human \
   --strand rf-stranded \
-  --threads 8 \ 
+  --threads 8 \
   --ram 16 \
   --assembly
 ```
@@ -52,7 +52,7 @@ python3 chimTE_mode2.py \
   --te projects/data/input/hg38_TE_sequences.fa \
   --ref_TEs human \
   --strand rf-stranded \
-  --threads 8 \ 
+  --threads 8 \
   --ram 16 \
   --assembly
 ```
