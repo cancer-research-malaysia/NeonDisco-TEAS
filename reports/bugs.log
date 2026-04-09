@@ -1,0 +1,230 @@
+================================================================================
+ChimeraTE Example Data Run Report
+Date: 2026-04-09
+Prepared by: faramir
+================================================================================
+
+================================================================================
+TABLE 1: MODE 1 (GENOME-GUIDED) — EXAMPLE DATA
+================================================================================
+
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| FIELD                     | RUN 1 — No Bug Fix (Apptainer)                   | RUN 2 — Bug Fixed (Apptainer)                    | RUN 3 — Docker (Local)                           |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| APPTAINER / DOCKER        | apptainer shell --writable-tmpfs \               | apptainer shell --writable-tmpfs \               | docker run -it --entrypoint /bin/bash \          |
+| LAUNCH COMMAND            |   --pwd /home/ec2-user/ChimeraTE \               |   --pwd /home/ec2-user/ChimeraTE \               |   faramz/chimerate:1.3                           |
+|                           |   --bind ~/repos/neondisco-teas/data:\           |   --bind ~/repos/neondisco-teas/data/output/     |                                                  |
+|                           |   /home/ec2-user/ChimeraTE/projects/data \       |   projects/:/home/ec2-user/ChimeraTE/            |                                                  |
+|                           |   chimerate_1.3.sif                              |   projects/test_out \                            |                                                  |
+|                           |                                                  |   chimerate_1.3.sif                              |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| RUN COMMAND               | python3 chimTE_mode1.py \                        | python3 chimTE_mode1.py \                        | python3 chimTE_mode1.py \                        |
+|                           |   --genome example_data/mode1/                   |   --genome example_data/mode1/                   |   --genome example_data/mode1/                   |
+|                           |     dmel_genome_sample.fa \                      |     dmel_genome_sample.fa \                      |     dmel_genome_sample.fa \                      |
+|                           |   --input example_data/mode1/                    |   --input example_data/mode1/                    |   --input example_data/mode1/                    |
+|                           |     input_mode1.tsv \                            |     input_mode1.tsv \                            |     input_mode1.tsv \                            |
+|                           |   --project example_mode1 \                      |   --project test_out \                           |   --project example_mode1 \                      |
+|                           |   --te example_data/mode1/                       |   --te example_data/mode1/                       |   --te example_data/mode1/                       |
+|                           |     dmel_TEs_sample.gtf \                        |     dmel_TEs_sample.gtf \                        |     dmel_TEs_sample.gtf \                        |
+|                           |   --gene example_data/mode1/                     |   --gene example_data/mode1/                     |   --gene example_data/mode1/                     |
+|                           |     dmel_genes_sample.gtf \                      |     dmel_genes_sample.gtf \                      |     dmel_genes_sample.gtf \                      |
+|                           |   --strand rf-stranded                           |   --strand rf-stranded                           |   --strand rf-stranded                           |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| VERSION DETECTED          | Version 2.0.0                                    | Version 2.0.0                                    | Version 2.0.0                                    |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| BUG FIX APPLIED           | None                                             | Bind mount changed to write projects/ to         | None                                             |
+|                           |                                                  | real disk instead of tmpfs:                      |                                                  |
+|                           |                                                  | --bind ~/repos/neondisco-teas/data/output/       |                                                  |
+|                           |                                                  | projects/:/home/ec2-user/ChimeraTE/projects/     |                                                  |
+|                           |                                                  | test_out                                         |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| PIPELINE PROGRESS         | - GTF loaded: 7 genes, 232 exons, 6 TE families  | - GTF loaded: 7 genes, 232 exons, 6 TE families  | - GTF loaded: 7 genes, 232 exons, 6 TE families  |
+|                           | - STAR index created (with SAindex warning)      | - STAR index created (with SAindex warning)      | - STAR index created (with SAindex warning)      |
+|                           | - Alignment started                              | - rep1 + rep2: All steps completed               | - rep1 + rep2: All steps completed               |
+|                           | - Crashed during alignment (no space)            | - TE-initiated: 1 detected                       | - TE-initiated: 1 detected                       |
+|                           |                                                  | - TE-terminated: 1 detected                      | - TE-terminated: 1 detected                      |
+|                           |                                                  | - Crashed at TE-exonized_embedded step           | - Crashed at TE-exonized_embedded step           |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| WARNINGS (Non-fatal)      | !!!!! WARNING: Could not ls                      | !!!!! WARNING: Could not move Log.out file       | !!!!! WARNING: --genomeSAindexNbases 14 is       |
+|                           |   example_data/mode1/CR1_def_R1.fq.gz           |   from ./Log.out into                            |   too large for the genome size=23301598,        |
+|                           | !!!!! WARNING: Could not ls                      |   /home/ec2-user/ChimeraTE/projects/test_out/    |   which may cause seg-fault at the mapping       |
+|                           |   example_data/mode1/CR1_def_R2.fq.gz           |   index/Log.out. Will keep ./Log.out             |   step. Re-run genome generation with            |
+|                           | !!!!! WARNING: --genomeSAindexNbases 14 is       | !!!!! WARNING: --genomeSAindexNbases 14 is       |   recommended --genomeSAindexNbases 11           |
+|                           |   too large for the genome size=23301598         |   too large for the genome size=23301598         |                                                  |
+|                           | [E::bgzf_close] File write failed (x49)          |                                                  |                                                  |
+|                           | samtools view: error closing standard output: -1 |                                                  |                                                  |
+|                           | samtools merge: error closing output file (x2)   |                                                  |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| FINAL ERROR               | Traceback (most recent call last):               | Traceback (most recent call last):               | Traceback (most recent call last):               |
+|                           |   File "chimTE_mode1.py", line 104, in <module>  |   File "chimTE_mode1.py", line 142, in <module>  |   File "chimTE_mode1.py", line 142, in <module>  |
+|                           |     aln_check = alignment_func(out_dir, group,   |     replicability(args.replicate, args.coverage) |     replicability(args.replicate, args.coverage) |
+|                           |     aln_dir, mate1, mate2, args.threads,         |   File ".../mode1_replicability.py", line 35,    |   File ".../mode1_replicability.py", line 35,    |
+|                           |     args.strand, tmp, args.fpkm)                 |     in replicability                             |     in replicability                             |
+|                           |   File ".../mode1_alignment.py", line 134,       |     replicated = merge_dfs(chimera, rep_n)       |     replicated = merge_dfs(chimera, rep_n)       |
+|                           |     in alignment_func                            |   File ".../mode1_replicability.py", line 21,    |   File ".../mode1_replicability.py", line 21,    |
+|                           |     overlap(f'{tmp_dir}/gene_coord.bed',          |     in merge_dfs                                 |     in merge_dfs                                 |
+|                           |     list_genes,                                  |       ignore_index=True)                         |       ignore_index=True)                         |
+|                           |     f'{aln_dir}/genes_total_expressed.bed')      |   File ".../concat.py", line 284, in concat      |   File ".../concat.py", line 284, in concat      |
+|                           |   File ".../parser.py", line 82, in overlap      |     sort=sort,                                   |     sort=sort,                                   |
+|                           |     outfile.write(line)                          |   File ".../concat.py", line 331, in __init__    |   File ".../concat.py", line 331, in __init__    |
+|                           | OSError: [Errno 28] No space left on device      |     raise ValueError("No objects to             |     raise ValueError("No objects to             |
+|                           |                                                  |     concatenate")                                |     concatenate")                                |
+|                           |                                                  | ValueError: No objects to concatenate            | ValueError: No objects to concatenate            |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| ERROR CAUSE               | Container tmpfs ran out of disk space during     | TE-exonized_embedded produced zero results in    | Same error as Run 2. TE-exonized_embedded        |
+|                           | alignment. Writes could not complete.            | both replicates. merge_dfs() tried to            | produced zero results. merge_dfs() tried to      |
+|                           |                                                  | concatenate empty dataframes.                    | concatenate empty dataframes.                    |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| OUTPUT FILES PRODUCED     | None (crashed before writing output)             | projects/test_out/                               | projects/example_mode1/                          |
+|                           |                                                  |   TE-initiated_final.tsv (1 chimera)             |   TE-initiated_final.tsv (1 chimera)             |
+|                           |                                                  |   TE-terminated_final.tsv (1 chimera)            |   TE-terminated_final.tsv (1 chimera)            |
+|                           |                                                  |   index/                                         |   index/                                         |
+|                           |                                                  |   rep1/  rep2/  tmp/                             |   rep1/  rep2/  tmp/                             |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| STATUS                    | FAILED — No space left on device                 | PARTIALLY COMPLETED — TE-exonized missing        | PARTIALLY COMPLETED — TE-exonized missing        |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+
+
+================================================================================
+TABLE 2: MODE 2 (GENOME-BLIND) — EXAMPLE DATA
+================================================================================
+
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| FIELD                     | RUN 1 — No Bug Fix (Apptainer)                   | RUN 2 — Bug Fixed (Apptainer)                    | RUN 3 — Docker (Local)                           |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| APPTAINER / DOCKER        | apptainer shell --writable-tmpfs \               | apptainer shell --writable-tmpfs \               | docker run -it --entrypoint /bin/bash \          |
+| LAUNCH COMMAND            |   --pwd /home/ec2-user/ChimeraTE \               |   --pwd /home/ec2-user/ChimeraTE \               |   faramz/chimerate:1.3                           |
+|                           |   --bind ~/repos/neondisco-teas/data:\           |   --bind ~/repos/neondisco-teas/data:\           |                                                  |
+|                           |   /home/ec2-user/ChimeraTE/projects/data \       |   /home/ec2-user/ChimeraTE/projects/data \       |                                                  |
+|                           |   chimerate_1.3.sif                              |   chimerate_1.3.sif                              |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| RUN COMMAND               | python3 chimTE_mode2.py \                        | python3 chimTE_mode2.py \                        | python3 chimTE_mode2.py \                        |
+|                           |   --input example_data/mode2/                    |   --input example_data/mode2/                    |   --input example_data/mode2/                    |
+|                           |     input_mode2.tsv \                            |     input_mode2.tsv \                            |     input_mode2.tsv \                            |
+|                           |   --project example_mode2 \                      |   --project example_mode2 \                      |   --project example_mode2 \                      |
+|                           |   --te example_data/mode2/                       |   --te example_data/mode2/                       |   --te example_data/mode2/                       |
+|                           |     dmel-sampled_TE-copies.fa \                  |     dmel-sampled_TE-copies.fa \                  |     dmel-sampled_TE-copies.fa \                  |
+|                           |   --transcripts example_data/mode2/              |   --transcripts example_data/mode2/              |   --transcripts example_data/mode2/              |
+|                           |     dmel-sampled_transcripts.fa \                |     dmel-sampled_transcripts.fa \                |     dmel-sampled_transcripts.fa \                |
+|                           |   --strand rf-stranded \                         |   --strand rf-stranded \                         |   --strand rf-stranded \                         |
+|                           |   --assembly                                     |   --assembly                                     |   --assembly                                     |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| VERSION DETECTED          | Version 1.2                                      | Version 1.2                                      | Version 1.2                                      |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| BUG FIX APPLIED           | None                                             | sed -i "s/str(ram), + 'G'/str(ram) + 'G'/g" \   | sed -i "s/str(ram), + 'G'/str(ram) + 'G'/g" \   |
+|                           |                                                  |   /home/ec2-user/ChimeraTE/scripts/              |   /home/ec2-user/ChimeraTE/scripts/              |
+|                           |                                                  |   mode2_assembly.py                              |   mode2_assembly.py                              |
+|                           |                                                  |                                                  |                                                  |
+|                           |                                                  | Verified with:                                   | Verified with:                                   |
+|                           |                                                  | grep "max_memory" .../mode2_assembly.py          | grep "max_memory" .../mode2_assembly.py          |
+|                           |                                                  | --> str(ram) + 'G' confirmed                     | --> str(ram) + 'G' confirmed                     |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| PIPELINE PROGRESS         | - bowtie2 index: created                         | - bowtie2 index: skipped (found)                 | - bowtie2 index: created                         |
+|                           | - bowtie2 TE alignment: 0.00% rate               | - bowtie2 TE alignment: 28.83% rate              | - bowtie2 TE alignment: 28.83% rate              |
+|                           | - bowtie2 transcript alignment: 0.00% rate       | - bowtie2 transcript alignment: 15.58% rate      | - bowtie2 transcript alignment: 15.58% rate      |
+|                           | - Expression: failed, included all transcripts   | - Expression: calculated successfully            | - Expression: calculated successfully            |
+|                           | - Chimeric reads: identified                     | - Chimeric reads: identified                     | - Chimeric reads: identified                     |
+|                           | - Chimeric transcripts: identified               | - Chimeric transcripts: identified               | - Chimeric transcripts: identified               |
+|                           | - Trinity assembly: started, then crashed        | - Trinity assembly: completed (took ~48 min)     | - Trinity assembly: started, then crashed        |
+|                           |                                                  | - bowtie2 index assembled transcripts: done      |                                                  |
+|                           |                                                  | - Alignment assembled transcripts: 87.72%        |                                                  |
+|                           |                                                  | - RepeatMasker masking: ran but famdb error      |                                                  |
+|                           |                                                  | - Crashed at chimeric reads identification       |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| FINAL ERROR               | Traceback (most recent call last):               | [RepeatMasker famdb error - non-fatal]:          | Traceback (most recent call last):               |
+|                           |   File "chimTE_mode2.py", line 110,              | Traceback (most recent call last):               |   File "chimTE_mode2.py", line 110,              |
+|                           |     in <module>                                  |   File ".../famdb.py", line 953, in main         |     in <module>                                  |
+|                           |     transcriptome_assembly(mate1, mate2,         |     args.func(args)                              |     transcriptome_assembly(mate1, mate2,         |
+|                           |     args.strand, args.ram, args.threads,         |   File ".../famdb.py", line 331,                 |     args.strand, args.ram, args.threads,         |
+|                           |     args.ref_TEs, args.TE_length,                |     in command_lineage                           |     args.ref_TEs, args.TE_length,                |
+|                           |     args.overlap)                                |     args.db_dir, tree, target_id, partition,     |     args.overlap)                                |
+|                           |   File ".../mode2_assembly.py", line 33,         |     args.curated, args.uncurated                 |   File ".../mode2_assembly.py", line 33,         |
+|                           |     in transcriptome_assembly                    |   File ".../famdb.py", line 284,                 |     in transcriptome_assembly                    |
+|                           |     subprocess.call(['Trinity', '--seqType',     |     in get_lineage_totals                        |     subprocess.call(['Trinity', '--seqType',     |
+|                           |     'fq', '--SS_lib_type', str(strand),          |     present,                                     |     'fq', '--SS_lib_type', str(strand),          |
+|                           |     '--max_memory', str(ram), + 'G',             |   [Previous line repeated 1 more time]           |     '--max_memory', str(ram), + 'G',             |
+|                           |     '--left', str(mate1), '--right',             |   File ".../famdb.py", line 264,                 |     '--left', str(mate1), '--right',             |
+|                           |     str(mate2), '--CPU', str(threads),           |     in get_lineage_totals                        |     str(mate2), '--CPU', str(threads),           |
+|                           |     '--output', str(trinity_out)],               |     for acc in accessions:                       |     '--output', str(trinity_out)],               |
+|                           |     stderr=subprocess.DEVNULL,                   | TypeError: 'NoneType' object is not iterable     |     stderr=subprocess.DEVNULL,                   |
+|                           |     stdout=subprocess.DEVNULL)                   |                                                  |     stdout=subprocess.DEVNULL)                   |
+|                           | TypeError: bad operand type for unary +: 'str'   | [Crash after RepeatMasker]:                      | TypeError: bad operand type for unary +: 'str'   |
+|                           |                                                  | Traceback (most recent call last):               |                                                  |
+|                           |                                                  |   File "chimTE_mode2.py", line 110,              |                                                  |
+|                           |                                                  |     in <module>                                  |                                                  |
+|                           |                                                  |     transcriptome_assembly(...)                  |                                                  |
+|                           |                                                  |   File ".../mode2_assembly.py", line 97,         |                                                  |
+|                           |                                                  |     in transcriptome_assembly                    |                                                  |
+|                           |                                                  |     trinity_masked['length'] =                   |                                                  |
+|                           |                                                  |     trinity_masked.apply(                        |                                                  |
+|                           |                                                  |     lambda x: x['end'] - x['start'], axis=1)    |                                                  |
+|                           |                                                  |   File ".../frame.py", line 3044,                |                                                  |
+|                           |                                                  |     in __setitem__                               |                                                  |
+|                           |                                                  |     self._set_item(key, value)                   |                                                  |
+|                           |                                                  |   File ".../generic.py", line 3579,              |                                                  |
+|                           |                                                  |     in _set_item                                 |                                                  |
+|                           |                                                  |     self._mgr.insert(len(self._info_axis),       |                                                  |
+|                           |                                                  |     key, value)                                  |                                                  |
+|                           |                                                  |   File ".../managers.py", line 1198, in insert   |                                                  |
+|                           |                                                  |     block = make_block(values=value,             |                                                  |
+|                           |                                                  |     ndim=self.ndim,                              |                                                  |
+|                           |                                                  |     placement=slice(loc, loc + 1))               |                                                  |
+|                           |                                                  | ValueError: Wrong number of items passed 6,      |                                                  |
+|                           |                                                  |   placement implies 1                            |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| ERROR CAUSE               | Bug in mode2_assembly.py line 33:                | RepeatMasker's internal famdb.py cannot find     | Same bug as Run 1 — mode2_assembly.py            |
+|                           | str(ram), + 'G' should be str(ram) + 'G'         | "flies" taxonomy (broken/outdated Dfam DB        | not patched before running. Unary +              |
+|                           | The comma separates the args, then unary +       | inside container). Returns empty result.         | operator on str is invalid in Python.            |
+|                           | is applied to the string 'G' which is invalid.   | trinity_masked df has no 'end'/'start' cols,     |                                                  |
+|                           |                                                  | causing KeyError then ValueError on insert.      |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| OUTPUT FILES PRODUCED     | None (crashed at Trinity step)                   | Partial — crashed after RepeatMasker step.       | None (crashed at Trinity step)                   |
+|                           |                                                  | chimreads_evidence file likely incomplete.       |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+| STATUS                    | FAILED — Python bug in mode2_assembly.py         | FAILED — RepeatMasker famdb broken in            | FAILED — Python bug in mode2_assembly.py         |
+|                           |                                                  | container. Downstream crash on empty df.         |                                                  |
++---------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+
+================================================================================
+SUMMARY OF KNOWN BUGS
+================================================================================
+
+BUG 1 — mode2_assembly.py (Trinity RAM argument)
+  File:    /home/ec2-user/ChimeraTE/scripts/mode2_assembly.py, line 33
+  Bad:     subprocess.call([..., '--max_memory', str(ram), + 'G', ...])
+  Fixed:   subprocess.call([..., '--max_memory', str(ram) + 'G', ...])
+  Fix cmd: sed -i "s/str(ram), + 'G'/str(ram) + 'G'/g" \
+             /home/ec2-user/ChimeraTE/scripts/mode2_assembly.py
+  Affects: Mode 2 with --assembly flag. Crashes before Trinity runs.
+
+BUG 2 — RepeatMasker famdb.py (Broken Dfam database in container)
+  File:    /opt/conda/share/RepeatMasker/famdb.py, line 264
+  Error:   TypeError: 'NoneType' object is not iterable
+  Cause:   The Dfam taxonomy database inside the container is outdated/corrupt.
+           get_lineage_totals() returns None for accessions instead of a list.
+  Result:  RepeatMasker returns empty output -> trinity_masked df has no
+           'end'/'start' columns -> KeyError -> ValueError on df insert.
+  Fix:     Use --ref_TEs with a direct FASTA file instead of a species name:
+           --ref_TEs example_data/mode2/dmel-sampled_TE-copies.fa
+           (bypasses the broken internal Dfam DB entirely)
+
+BUG 3 — mode1_replicability.py (Empty TE-exonized dataframe)
+  File:    /home/ec2-user/ChimeraTE/scripts/mode1_replicability.py, line 21
+  Error:   ValueError: No objects to concatenate
+  Cause:   TE-exonized_embedded found 0 results in both replicates.
+           merge_dfs() tries to pd.concat() empty list -> ValueError.
+  Note:    TE-initiated (1) and TE-terminated (1) completed successfully.
+           This may be expected for small example data with only 6 TE families.
+
+BUG 4 — tmpfs space (Apptainer --writable-tmpfs limit)
+  Error:   OSError: [Errno 28] No space left on device
+  Cause:   Default tmpfs is too small for large intermediate files.
+  Fix:     Bind real disk directories to container paths:
+           --bind ~/repos/neondisco-teas/data/output/index:\
+             /home/ec2-user/ChimeraTE/index
+           --bind ~/repos/neondisco-teas/data/output/projects:\
+             /home/ec2-user/ChimeraTE/projects
+
+================================================================================
+END OF REPORT
+================================================================================

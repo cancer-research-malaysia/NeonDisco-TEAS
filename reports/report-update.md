@@ -9,7 +9,7 @@ apptainer shell --writable-tmpfs --pwd /home/ec2-user/ChimeraTE --bind ~/repos/n
 
 How to run the example data for mode 1:
 ```
-python3 chimTE_mode1.py --genome projects/data/ref/GRCh38.primary_assembly.genome.fa --input projects/data/metadata/B_input_379T.tsv --project data/output --te projects/data/input/hg38_TEs.gtf --gene projects/data/input/gencode.v49.primary_assembly.annotation.gtf --strand rf-stranded
+python3 chimTE_mode1.py --genome projects/data/ref/GRCh38.primary_assembly.genome.fa --input projects/data/metadata/B_input_379T.tsv --project data/output/mode1_test1 --te projects/data/input/hg38_TEs.gtf --gene projects/data/input/gencode.v49.primary_assembly.annotation.gtf --strand rf-stranded
 ```
 
 2. A. Using our own data from AWS (VERY EASY TO UNDERSTAND PATHWAYS):
