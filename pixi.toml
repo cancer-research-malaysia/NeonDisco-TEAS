@@ -1,0 +1,10 @@
+[workspace]
+authors = ["faramirZ <faramirzailan@gmail.com>"]
+channels = ["conda-forge"]
+name = "neondisco-teas"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
