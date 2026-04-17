@@ -52,8 +52,8 @@ ARG MAMBA_DOCKERFILE_ACTIVATE=1
 # add conda bins to PATH
 ENV PATH="/opt/conda/bin:/opt/conda/condabin:$PATH"
 
-# install ChimeraTE
-RUN git clone https://github.com/OliveiraDS-hub/ChimeraTE.git
+# install ChimeraTE v1.2
+RUN git clone --branch ChimeraTE-v1.2 https://github.com/OliveiraDS-hub/ChimeraTE.git
 
 # move ChimeraTE repo to home
 RUN mv /tmp/ChimeraTE /home/ec2-user
